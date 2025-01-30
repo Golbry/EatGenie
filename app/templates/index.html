@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>今天吃什么？</h1>
+    
+    <!-- 添加设置按钮 -->
+    <div class="settings-button">
+        <button onclick="toggleSettings()">⚙️ 设置</button>
+    </div>
+
+    <!-- 添加设置面板 -->
+    <div id="settings-panel" class="settings-panel hidden">
+        <h3>AI 设置</h3>
+        <div class="settings-group">
+            <label>
+                <input type="radio" name="ai-engine" value="deepseek" checked> DeepSeek
+            </label>
+            <div class="sub-settings" id="deepseek-settings">
+                <label>API Key:</label>
+                <input type="password" id="deepseek-key" placeholder="输入 DeepSeek API Key">
+            </div>
+        </div>
+        
+        <div class="settings-group">
+            <label>
+                <input type="radio" name="ai-engine" value="ollama"> Ollama
+            </label>
+            <div class="sub-settings" id="ollama-settings">
+                <label>服务地址:</label>
+                <input type="text" id="ollama-url" placeholder="例如: http://localhost:11434">
+            </div>
+        </div>
+        
+        <button onclick="saveSettings()">保存设置</button>
+    </div>
+
+    <div class="search-section">
+        <!-- 搜索和节气控制区域 -->
+        <div class="search-control-group">
+            <input type="text" id="location" placeholder="    输入您的位置">
+            
+            <!-- 节气显示和控制 -->
+            <div class="solar-term-section">
+                <div class="solar-term-info">
+                    <span class="solar-term-icon">🌤️</span>
+                    <span id="current-term">获取中...</span>
+                </div>
+                <div class="solar-term-toggle">
+                    <span class="toggle-status">按节气推荐</span>
+                    <label class="toggle-switch" title="开启/关闭节气推荐">
+                        <input type="checkbox" id="use-solar-term" checked style="display: none;" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="getRecommendations()" id="search-btn">获取推荐</button>
+    </div>
+
+    <div class="preferences-section">
+        <h3>我的偏好</h3>
+        <div id="preferences-tags"></div>
+        <input type="text" id="preference-input" placeholder="添加偏好（回车确认）">
+    </div>
+
+    <!-- 添加加载动画 -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>正在获取推荐...</p>
+    </div>
+
+    <div class="results-section">
+        <div class="local-foods card">
+            <h3>🏠 当地特色</h3>
+            <ul id="local-foods-list"></ul>
+        </div>
+        
+        <div class="ai-recommendations card">
+            <h3>🤖 AI推荐</h3>
+            <ul id="ai-recommendations-list"></ul>
+        </div>
+    </div>
+</div>
+{% endblock %} 
